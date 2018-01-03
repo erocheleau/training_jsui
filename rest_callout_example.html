@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>All Content</title>
+  <meta about="Search all content at once." />
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, height=device-height">
+  <link rel="stylesheet" href="./css/CoveoFullSearch.css" />
+  <script src="js/CoveoJsSearch.Lazy.js"></script>
+  <script src="js/templates/templates.js"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+      function displayDogPicture(data, item) {
+        // This is the HTML element for the rendered Result template.
+        var myResult = item;
+        // Find your element container. Always use a class and not an id, because class can be non-unique in the page.
+        var imgContainer = Coveo.$$(myResult).find('.dog-picture-container');
+        if (imgContainer) {
+          // Create a new HTML element, in my case it's an img.
+          var myImg = document.createElement('img');
+          // Set the src="" attribute on the image.
+          myImg.setAttribute('src', data.message);
+          // Append the newly created image to the container.
+          myResult.appendChild(myImg);
+        }
+      }
+
+      var root = document.querySelector("#search");
+      // Every time a new result is displayed.
+      Coveo.$$(root).on('newResultDisplayed', (e, args) => {
+        // args.item is the HTML rendered Result template.
+        var item = args.item;
+
+        // Asyncronous call to an endpoint. This is a GET.
+        $.ajax({
+          url: 'https://dog.ceo/api/breeds/image/random',
+          dataType: 'json',
+          success: (data) => {
+            // On success of the call, send the data to be handled by the function.
+            displayDogPicture(data, item);
+          }
+        });
+      });
+
+      Coveo.SearchEndpoint.configureSampleEndpointV2();
+      Coveo.init(document.body);
+    });
+  </script>
+</head>
+
+<body id="search" class='CoveoSearchInterface' data-enable-history="true">
+  <div class="coveo-tab-section">
+    <a class="CoveoTab" data-id="All" data-caption="All Content"></a>
+  </div>
+  <div class='coveo-search-section'>
+    <div class="CoveoSettings"></div>
+    <div class="CoveoSearchbox" data-enable-omnibox="true"></div>
+  </div>
+  <div class="coveo-main-section">
+    <div class="coveo-facet-column">
+      <div class="CoveoFacet" data-title="Type" data-field="@objecttype" data-tab="All"></div>
+      <div class="CoveoFacet" data-title="FileType" data-field="@filetype" data-tab="All"></div>
+      <div class="CoveoFacet" data-title="Author" data-field="@author" data-tab="All"></div>
+      <div class="CoveoFacet" data-title="Year" data-field="@year" data-tab="All"></div>
+      <div class="CoveoFacet" data-title="Month" data-field="@month" data-tab="All"></div>
+    </div>
+    <div class="coveo-results-column">
+      <div class="CoveoShareQuery"></div>
+      <div class="CoveoExportToExcel"></div>
+      <div class="CoveoPreferencesPanel">
+        <div class="CoveoResultsPreferences"></div>
+        <div class="CoveoResultsFiltersPreferences"></div>
+      </div>
+      <div class="CoveoBreadcrumb"></div>
+      <div class="coveo-results-header">
+        <div class="coveo-summary-section">
+          <span class="CoveoQuerySummary"></span>
+          <span class="CoveoQueryDuration"></span>
+        </div>
+        <div class="coveo-result-layout-section">
+          <span class="CoveoResultLayout"></span>
+        </div>
+        <div class="coveo-sort-section">
+          <span class="CoveoSort" data-sort-criteria="relevancy" data-caption="Relevance"></span>
+          <span class="CoveoSort" data-sort-criteria="date descending,date ascending" data-caption="Date"></span>
+        </div>
+      </div>
+      <div class="CoveoHiddenQuery"></div>
+      <div class="CoveoDidYouMean"></div>
+      <div class="CoveoErrorReport"></div>
+      <div class="CoveoResultList" data-layout="list" data-wait-animation="fade" data-auto-select-fields-to-include="true"></div>
+      <div class="CoveoResultList" data-layout="card" data-wait-animation="fade" data-auto-select-fields-to-include="true"></div>
+      <div class="CoveoPager"></div>
+      <div class="CoveoLogo"></div>
+      <div class="CoveoResultsPerPage"></div>
+    </div>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>All Content</title>
+    <meta about="Search all content at once." />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, height=device-height" >
+    <link rel="stylesheet" href="./css/CoveoFullSearch.css"/>
+    <script src="js/CoveoJsSearch.Lazy.js"></script>
+    <script src="js/templates/templates.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function(){
+
+        // SERVER SIDE:
+        // ===============================
+        var myAPIKey = 'MY API KEY GOES HERE';
+        var myOrg = 'besttechdemov2';
+        var url = `https://platform.cloud.coveo.com/rest/search/token?access_token=${myAPIKey}&organizationId=${myOrg}`;
+
+        // Request to the platform to generate a token. With an API key that has the impersonate rights.
+        $.ajax({
+          url : url,
+          dataType: 'json',
+          type: 'post',
+          contentType: 'application/json',
+          data: JSON.stringify({
+            userIds: [{
+              name: "erocheleau@coveo.com",
+              provider: "Email Security Provider"
+            }]
+          }),
+          success: data => {
+            // Find a way to send this token client side. Usually generate the page server side and send to client with the token in the page.
+            initSearchPage(data.token);
+          },
+          error: function( jqXhr, textStatus, errorThrown ){
+            console.log( errorThrown );
+          }
+        });
+
+        // CLIENT SIDE
+        // =========================================
+        function initSearchPage(token) {
+          // This is the most simple way to create an Endpoint for search.
+          Coveo.SearchEndpoint.endpoints['default'] = new Coveo.SearchEndpoint({
+            restUri: 'https://cloudplatform.coveo.com/rest/search',
+            accessToken: token
+          });
+          Coveo.init(document.body);  
+        }
+      })
+    </script>
+  </head>
+
+  <body id="search" class='CoveoSearchInterface' data-enable-history="true">
+    <div class="coveo-tab-section">
+      <a class="CoveoTab" data-id="All" data-caption="All Content"></a>
+    </div>
+    <div class='coveo-search-section'>
+      <div class="CoveoSettings"></div>
+      <div class="CoveoSearchbox" data-enable-omnibox="true"></div>
+    </div>
+    <div class="coveo-main-section">
+      <div class="coveo-facet-column">
+        <div class="CoveoFacet" data-title="Type" data-field="@objecttype" data-tab="All"></div>
+        <div class="CoveoFacet" data-title="FileType" data-field="@filetype" data-tab="All"></div>
+        <div class="CoveoFacet" data-title="Author" data-field="@author" data-tab="All"></div>
+        <div class="CoveoFacet" data-title="Year" data-field="@year" data-tab="All"></div>
+        <div class="CoveoFacet" data-title="Month" data-field="@month" data-tab="All"></div>
+      </div>
+      <div class="coveo-results-column">
+        <div class="CoveoShareQuery"></div>
+        <div class="CoveoExportToExcel"></div>
+        <div class="CoveoPreferencesPanel">
+          <div class="CoveoResultsPreferences"></div>
+          <div class="CoveoResultsFiltersPreferences"></div>
+        </div>
+        <div class="CoveoBreadcrumb"></div>
+        <div class="coveo-results-header">
+          <div class="coveo-summary-section">
+            <span class="CoveoQuerySummary"></span>
+            <span class="CoveoQueryDuration"></span>
+          </div>
+          <div class="coveo-result-layout-section">
+            <span class="CoveoResultLayout"></span>
+          </div>
+          <div class="coveo-sort-section">
+            <span class="CoveoSort" data-sort-criteria="relevancy" data-caption="Relevance"></span>
+            <span class="CoveoSort" data-sort-criteria="date descending,date ascending" data-caption="Date"></span>
+          </div>
+        </div>
+        <div class="CoveoHiddenQuery"></div>
+        <div class="CoveoDidYouMean"></div>
+        <div class="CoveoErrorReport"></div>
+        <div class="CoveoResultList" data-layout="list" data-wait-animation="fade" data-auto-select-fields-to-include="true"></div>
+        <div class="CoveoResultList" data-layout="card" data-wait-animation="fade" data-auto-select-fields-to-include="true"></div>
+        <div class="CoveoPager"></div>
+        <div class="CoveoLogo"></div>
+        <div class="CoveoResultsPerPage"></div>
+      </div>
+    </div>
+  </body>
+
+</html>
