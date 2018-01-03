@@ -24,11 +24,21 @@
 
       /** Analytics requests and responses. **/
       /** ================================= **/
-      // 1. Cookie. 
-      //  -> visitorId
-      // 2. Search event. 
-      //  -> actionCause
-      //  -> searchQueryUid
+      // 1. Analytics request (general)
+      //    -> Set-Cookie 
+      //        visitor -> The ID given to you by the analytics service.
+      //        Each analytics request will check if you have that specific cookie already set, send it if it exists, or
+      //        receive an ID if you do not have one.
+
+      // 2. Search event
+      //    You should execute a search and check the Chrome Network tab for the analytics request sent. Check the different
+      //    parameters sent and the response received. All analytics requests are similarly structured.
+      //    -> actionCause      -> What caused the event to be sent. (InterfaceLoad, SearchboxSubmit, FacetSelect, etc.)
+      //    -> searchQueryUid   -> The ID of the search request associated (used to track the visit)
+
+      // 3. Click event
+      //    Similar to the search events. Except now on top you get the clicked document information.
+      //    documentUriHash   -> Parameter used to track a click with ML.
     });
   </script>
 </head>

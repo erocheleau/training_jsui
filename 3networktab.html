@@ -15,7 +15,15 @@
     document.addEventListener('DOMContentLoaded', function () {
 
       document.body.addEventListener('afterComponentsInitialization', e => {
+        // While stopped here, take some time to check the different resources loaded from the JSUI scripts.
+        // It is only the components you have in the page, not the components that are in the templates yet since
+        // the interface is initialized, but the query was not yet sent/received. No templates have been rendered yet.
+        // (See below comment #1)
         debugger;
+
+        // After you press play, notice how all the different components you find in the results templates are now requested.
+        // They are only requested when they are needed for the first time.
+        // This is an improvement that came with the newer versions of Webpack.
       });
       
       /** Initialization **/
@@ -32,16 +40,47 @@
       // This also means more travel time since latency is experienced on each requests.
 
       // 2. Search request to platform.
-      // HTTP OPTIONS
-      // Expected payload.
+
+      // a. HTTP OPTIONS
+      //    Look for the first request going out to the Coveo platform. It will be of type OPTIONS. This is a special HTTP
+      //    request where the page is asking the server, which HTTP options do you support? BEFORE sending the actual request.
+      //    This is made to help to refuse the requests before they are actually sent if the server does not support the 
+      //    upcoming HTTP verb.
+
+      // b. Expected payload
       //  -> JWT
-      // Expected response.
+      //      JWT is a token system that we use to identify the user sending the query. In simple terms, this token tells
+      //      the platform who the user is, eg. Email: demo@coveo.com.
+      //      If you want to know more about JWT: https://jwt.io/introduction/
+
+      //  -> Form data
+      //      Look at the different parameters sent with the query request. (q, aq, cq, numberOfResults, etc.)
+      //      actionsHistory  -> New parameter for recommendations ML engine. The list of actions by the user.
+      //      groupBy         -> The facets in the page send these.
+      //      fieldsToInclude -> Which fields are necessary to return from the Index (This is built from the result templates).
+      //      debug           -> Parameter used to tell the server to send debug info. (See below)
+
+      // c. Expected response
+      //  -> Response
+      //      Click on the second request (not the OPTIONS one). Check the "Preview" tab in Chrome dev tools Network tab.
+      //      You can see a lot of useful information there (pipeline, groupByResults, durations, totalCount)
+      //      refinedKeywords   -> Used by ML models when you enabled the option to reduce long queries by filtering terms.
+      //      termsToHighlight  -> Terms variations of your query (ex. test, teste, tested, testing, tests, etc.)
+      //      searchUid         -> This is the ID of the query, used in analytics to link a click to a search. (same ID)
+      //      results           -> All the results of the search.
       
       // 3. Query debug mode.
-      // Good idea to switch to https://help.salesforce.com here.
-      // Execution report.
-      //    -> Thesaurus rules, etc.
-      // Results.raw.
+      // Good idea to switch to http://support.logitech.com/en_us/search#q=mouse&t=All here. (It contains more information)
+      // a. Execution report.
+      //  -> Query debug
+      //      Use the magic trick to enable the Query debug. (Multiple ways to do that)
+
+      //  -> Many more parameters in the response
+      //      basicExpression, advancedExpression, etc.
+      //      rankingExpression   -> The different QRE being applied here.
+      //      result>rankingInfo  -> The explanation of the score given to a result.
+      //      userIdentities      -> Resolved user indentities related to the search token.
+      //      executionReport     -> All the different steps that went on in the SearchAPI/ML applied on the query and/or results.
 
 
     });
