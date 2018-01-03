@@ -10,7 +10,7 @@ below for the different modules details.
 In order to use each pages, have the Chrome dev tools open and load each page (or reload). Most of the page contains 
 breakpoints or debugger statements for you to explore and comments associated with the sections.
 
-## 1. How to use the Chrome debugger with the Coveo/search-ui framework (JSUI)
+## 1. [How to use the Chrome debugger with the Coveo/search-ui framework (JSUI)](https://erocheleau.github.io/training_jsui/1debugger.html)
 
 In this example you can see how to find elements in the HTML page and their attached Coveo modules.
 
@@ -21,7 +21,7 @@ And also how to use the step functionnalities of the Chrome debugger to go throu
 
 You will also encounter an error and learn how to spot the code that created this error and how to find the cause.
 
-## 2. Interacting with the search-ui through events in JavaScript
+## 2. [Interacting with the search-ui through events in JavaScript](https://erocheleau.github.io/training_jsui/2events.html)
 
 In this module, you will find different examples how to attach a listener to events sent by the search-ui. Either through
 native JavaScript or with the _dom_ helper packaged with the search-ui.
@@ -30,7 +30,7 @@ The different event listeners have explanations of how to access the event param
 
 There is also an example of what **not** to do to attach yourself to events.
 
-## 3. How to use the Chrome network tab
+## 3. [How to use the Chrome network tab](https://erocheleau.github.io/training_jsui/3networktab.html)
 
 This page is mostly a placeholder in order for you to explore the Chrome network tab as part of the Chrome debugging tools.
 
@@ -40,7 +40,7 @@ And also the structure of a response from the Coveo platform when you do a searc
 
 And some tricks and interesting parts of the response when using the query debug mode.
 
-## 4. Coveo Analytics
+## 4. [Coveo Analytics](https://erocheleau.github.io/training_jsui/4analytics.html)
 
 You can explore here the structure of an analytics event sent when you do a search, a click, etc. on a Coveo search page.
 
@@ -48,7 +48,7 @@ You can explore here the structure of an analytics event sent when you do a sear
 
 Explore by triggering different actions and check the Chrome Network tab for the different requests sent.
 
-## 5. Search token generation
+## 5. [Search token generation](https://erocheleau.github.io/training_jsui/5searchtoken.html)
 
 In this page you will find an example of how to generate a Search token starting with an API key that can impersonate.
 
@@ -61,7 +61,7 @@ So you should generate the search token server side and then serve the page clie
 
 # Other examples:
 
-## rest_callout_example.html
+## [rest_callout_example.html](https://erocheleau.github.io/training_jsui/rest_callout_example.html)
 
 This is a demonstration of how you can call an external REST API for each new result displayed in the Coveo search page
 and add some information to the result template. This adds some pictures of dogs **after** the initial rendering of the 
