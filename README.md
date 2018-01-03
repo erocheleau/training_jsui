@@ -48,7 +48,7 @@ You can explore here the structure of an analytics event sent when you do a sear
 
 Explore by triggering different actions and check the Chrome Network tab for the different requests sent.
 
-## 5. [Search token generation](https://erocheleau.github.io/training_jsui/5searchtoken.html)
+## 5. [Search token generation](https://raw.githubusercontent.com/erocheleau/training_jsui/master/5searchtoken.html)
 
 In this page you will find an example of how to generate a Search token starting with an API key that can impersonate.
 
