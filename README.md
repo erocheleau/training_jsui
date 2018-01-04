@@ -1,5 +1,7 @@
 # TRAINING COVEO/SEARCH-UI
 
+[View the site here](https://erocheleau.github.io/training_jsui/)
+
 ## Introduction - Examples and training for the coveo/search-ui
 
 This repository contains examples for specific use cases for the coveo search-ui. Each page is just a basic HTML page
